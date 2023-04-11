@@ -22,7 +22,7 @@ class hocsinh{
     }
 
 };
-//cách day code lại
+//cách day code lại lần nữa
 struct node{
     hocsinh data;
    struct node *next;
