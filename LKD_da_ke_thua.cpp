@@ -9,7 +9,7 @@ class VienChuc
 		string ho_ten;
 		int tuoi;
 		double he_so_luong;
-	
+	 
 	public:
 		VienChuc()
 		{
@@ -97,6 +97,7 @@ class GiaoVien : public VienChuc, public MonHoc
 	private:
 		string bo_mon;
 	public:
+		GiaoVien *next;
 		GiaoVien()
 		{
 		}
@@ -106,124 +107,124 @@ class GiaoVien : public VienChuc, public MonHoc
 				: VienChuc(ma_vc, ho_ten, tuoi, he_so_luong), MonHoc(ten_mon_hoc, so_tiet) 
 		{
 			this->bo_mon = bo_mon;
+			next=NULL;
 		}
 		
 		~GiaoVien()
 		{
 		}
 		
-		friend istream& operator >> (istream &is, GiaoVien &gv)
+		friend istream& operator >> (istream &is, GiaoVien* &gv)
 		{
-			is>> (VienChuc&) gv;
-			is>> (MonHoc&) gv;
+			is>> (VienChuc&)* gv;
+			is>> (MonHoc&)* gv;
 			cout<<"Nhap ten bo mon: ";
 			is.ignore();
-			getline(is, gv.bo_mon);
+			getline(is, gv->bo_mon);
 			return is;
 		}
 		
-		friend ostream& operator << (ostream &os, GiaoVien gv)
+		friend ostream& operator << (ostream &os, GiaoVien* gv)
 		{
-			os << (VienChuc&) gv;
-			os << (MonHoc&) gv;
-			os << setw(15) << gv.bo_mon << endl;
+			os << (VienChuc&) *gv;
+			os << (MonHoc&)* gv;
+			os << setw(15) << gv->bo_mon << endl;
 			return os;
 		}
 };
 
 
-struct GV
-{
-	GiaoVien data;
-	GV *next;
-};
+// struct GV
+// {
+// 	GiaoVien data;
+// 	GV *next;
+// };
 
-
+typedef GiaoVien* GV;
 void TieuDe();
-void KhoiTaoDS(GV* &pHead);
-void menu(GV* &pHead, int n);
+void KhoiTaoDS(GV &pHead);
+void menu(GV &pHead, int n);
 
-void menu_1(GV* &pHead, int n);
-void setList(GV* &pHead, int n);
-GV *creatGV_setList(GiaoVien x);
-void ThemCuoi_setList(GV* &pHead, GiaoVien x);
+void menu_1(GV &pHead, int n);
+void setList(GV &pHead, int n);
+GV creatGV_setList(GiaoVien a);
+void ThemCuoi_setList(GV &pHead,GiaoVien a);
 
-GV *creatGV();
-void ThemCuoi(GV* &pHead);
-void NhapDS(GV* &pHead, int n);
+GV creatGV();
+void ThemCuoi(GV &pHead);
+void NhapDS(GV &pHead, int n);
 
 void InDS(GV *pHead);
-void insertFirst(GV* &pHead, GV *a);
-int Dem(GV *pHead);
-void Them_vitri(GV* &pHead);
-void SapXep(GV* &pHead);
-GV *TimKiem(GV *pHead, int x);
-void Xoa(GV* &pHead, GV *p);
-void ThongBao_Xoa(GV* &pHead);
+void insertFirst(GV &pHead, GV a);
+int Dem(GV pHead);
+void Them_vitri(GV &pHead);
+void SapXep(GV &pHead);
+GV TimKiem(GV pHead, int x);
+void Xoa(GV &pHead, GV p);
+void ThongBao_Xoa(GV &pHead);
 
 
 int main()
 {
-	GV *ds;
+	GV ds;
 	int n; cout<<"Nhap so giao vien: "; cin>>n;
 	KhoiTaoDS(ds);
 	menu(ds,n);
 	return 0;
 }
 
-void KhoiTaoDS(GV* &pHead)
+void KhoiTaoDS(GV &pHead)
 {
-	pHead = new GV;
+	pHead = new GiaoVien;
 	pHead = NULL;
 }
 
-GV *creatGV_setList(GiaoVien x)
-{	
-	GV *new_gv = new GV;
-	new_gv->data = x;
-	new_gv->next = NULL;	
-	return new_gv;
+GV creatGV_setList(GiaoVien a)
+{	GV x=new GiaoVien(a);
+	
+	
+	
+	return x;
 }
 
-void ThemCuoi_setList(GV* &pHead, GiaoVien x)
-{
-	GV *new_gv = creatGV_setList(x);
+void ThemCuoi_setList(GV &pHead,GiaoVien a)
+{	
+	GV new_gv = creatGV_setList(a);
 	if(pHead == NULL)
 		pHead = new_gv;
 	else
 	{
-		GV *p = pHead;
+		GV p = pHead;
 		while(p->next != NULL)
 			p = p->next;
 		p->next = new_gv;
 	}
 }
 
-GV *creatGV()
+GV creatGV()
 {	
-	GiaoVien x; 
-	cin >> x;
-	GV *new_gv = new GV;
-	new_gv->data = x;
-	new_gv->next = NULL;	
-	return new_gv;
+GV x=new GiaoVien;
+	cin>>x;
+	
+	
+	return x;
 }
 
-void ThemCuoi(GV *&pHead)
+void ThemCuoi(GV &pHead)
 {
-	GV *new_gv = creatGV();
+	GV new_gv = creatGV();
 	if(pHead == NULL)
 		pHead = new_gv;
 	else
 	{
-		GV *p = pHead;
+		GV p = pHead;
 		while(p->next != NULL)
 			p = p->next;
 		p->next = new_gv;
 	}
 }
 
-void NhapDS(GV* &pHead, int n)
+void NhapDS(GV &pHead, int n)
 {
 	for(int i=0; i<n; i++)
 	{
@@ -232,22 +233,22 @@ void NhapDS(GV* &pHead, int n)
 	}
 }
 
-void InDS(GV *pHead)
+void InDS(GV pHead)
 {
 	if(pHead == NULL)
 	{
 		cout<<"\n--> Danh sach trong!!!\n";
 		return;
 	}
-	GV *p = pHead;
+	GV p = pHead;
 	do
 	{
-		cout << p->data;
+		cout << p;
 		p = p->next;
 	}while(p != NULL);
 }
 
-void insertFirst(GV* &pHead, GV *a)
+void insertFirst(GV &pHead, GV a)
 {
 	if(pHead == NULL)	pHead = a;
 	else
@@ -257,10 +258,10 @@ void insertFirst(GV* &pHead, GV *a)
 	}
 }
 
-int Dem(GV *pHead)
+int Dem(GV pHead)
 {
 	int dem = 0;
-	GV *p = pHead;
+	GV p = pHead;
 	while(p != NULL)
 	{
 		p = p->next;
@@ -269,10 +270,10 @@ int Dem(GV *pHead)
 	return dem;
 }
 
-void Them_vitri(GV* &pHead)
+void Them_vitri(GV &pHead)
 {
 	cout<<"\n\n--> Nhap thong tin giao vien muon them:\n\n";
-	GV *a = creatGV();
+	GV a = creatGV();
 	int vi_tri;
 	do
 	{
@@ -283,49 +284,49 @@ void Them_vitri(GV* &pHead)
 	else
 	{
 		int dem = 1;
-		GV *p = pHead;
+		GV p = pHead;
 		while(dem < vi_tri)
 		{
 			p = p->next;
 			dem++;
 		}
-		GV *q = pHead;
+		GV q = pHead;
 		while(q->next != p)		q= q->next;
 		q->next = a;
 		a->next = p;			
 	}
 }
 
-void SapXep(GV* &pHead)
+void SapXep(GV &pHead)
 {
-	for(GV *p = pHead; p->next != NULL; p = p->next)
-		for(GV *q = p->next; q != NULL; q = q->next)
-			if(p->data.get_ma() > q->data.get_ma())
-				swap(p->data, q->data);
+	for(GV p = pHead; p->next != NULL; p = p->next)
+		for(GV q = p->next; q != NULL; q = q->next)
+			if(p->get_ma() > q->get_ma())
+				swap(p, q);
 }
 
-GV *TimKiem(GV *pHead, int x)
+GV TimKiem(GV pHead, int x)
 {
-	GV *p = pHead;
-	while(p != NULL && p->data.get_ma() != x)
+	GV p = pHead;
+	while(p != NULL && p->get_ma() != x)
 		p = p->next;
 	return p;
 }
 
-void Xoa(GV* &pHead, GV *p)
+void Xoa(GV &pHead, GV p)
 {
 	if(pHead == NULL)
 		cout<<"\n-> Danh sach trong!!!\n";
 	else if(p == pHead)
 	{
-		GV *p = pHead;
+		GV p = pHead;
 		pHead = p->next;
 		delete p;
 		p = NULL;
 	}
 	else
 	{
-		GV *q = pHead;
+		GV q = pHead;
 		while(q->next != p)		q = q->next;
 		q->next = p->next;
 		delete p; 
@@ -333,10 +334,10 @@ void Xoa(GV* &pHead, GV *p)
 	}
 }
 
-void ThongBao_Xoa(GV* &pHead)
+void ThongBao_Xoa(GV &pHead)
 {
 	int x; cout<<"\n\n--> Nhap ma can xoa: "; cin>>x;
-	GV *p = TimKiem(pHead, x);
+	GV p = TimKiem(pHead, x);
 	if(p != NULL)
 	{
 		cout<<"\n--> Giao vien co trong danh sach\n\n----DANH SACH SAU KHI XOA----\n\n";
@@ -354,7 +355,7 @@ void TieuDe()
 	 << setw(15) << "TEN MON HOC" << " | " << setw(10) << "SO TIET" << " | "  << setw(15) << "TEN BO MON" << endl; 
 }
 
-void menu(GV* &pHead, int n)
+void menu(GV &pHead, int n)
 {
 	int lc;
 		cout<<"\n- 1: Nhap du lieu tu danh sach co san";
@@ -380,7 +381,7 @@ void menu(GV* &pHead, int n)
 }
 
 
-void menu_1(GV* &pHead, int n)
+void menu_1(GV &pHead, int n)
 {
 	int lua_chon;
 	
@@ -438,7 +439,7 @@ void menu_1(GV* &pHead, int n)
 		
 }
 
-void setList(GV* &pHead, int n)
+void setList(GV &pHead, int n)
 {
 	GiaoVien a[8];
 	a[0] = {123, "Nguyen Van An", 26, 3, "Vat Ly", 10, "Tu Nhien"};
