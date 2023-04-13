@@ -98,12 +98,13 @@ class GiaoVien : public VienChuc, public MonHoc
 		string bo_mon;
 	public:
 		GiaoVien *next;
-		GiaoVien()
-		{
-		}
-		GiaoVien(int ma_vc, string ho_ten, int tuoi, double he_so_luong,
-				string ten_mon_hoc, int so_tiet,
-				string bo_mon)
+		// GiaoVien()
+		// {
+		// 	next=NULL;
+		// }
+		GiaoVien(int ma_vc=0, string ho_ten="", int tuoi=0, double he_so_luong=0,
+				string ten_mon_hoc="", int so_tiet=0,
+				string bo_mon="")
 				: VienChuc(ma_vc, ho_ten, tuoi, he_so_luong), MonHoc(ten_mon_hoc, so_tiet) 
 		{
 			this->bo_mon = bo_mon;
@@ -212,7 +213,9 @@ GV x=new GiaoVien;
 
 void ThemCuoi(GV &pHead)
 {
-	GV new_gv = creatGV();
+	GV new_gv=new GiaoVien ;
+	cin>>new_gv;
+	// new_gv=creatGV();
 	if(pHead == NULL)
 		pHead = new_gv;
 	else
@@ -296,13 +299,40 @@ void Them_vitri(GV &pHead)
 		a->next = p;			
 	}
 }
+// void chenvaosaunode(GV &Phead,GV a,GV b){
+// 	GV x=Phead;
+// 	GV tam=a->next;
+// 	while(x->next!=a){
+//        x=x->next;
+// 	}
+// 	b->next=tam;
+// 	x->next=b;
+	
+// }
 
 void SapXep(GV &pHead)
 {
 	for(GV p = pHead; p->next != NULL; p = p->next)
 		for(GV q = p->next; q != NULL; q = q->next)
-			if(p->get_ma() > q->get_ma())
-				swap(p, q);
+			if(p->get_ma() > q->get_ma()){
+				GV x=pHead,y=pHead;
+				GV xx=p,yy=q;
+				while(x->next!=p){
+					x=x->next;
+				}
+				while(y->next!=q){
+					y=y->next;
+				}
+				if(x!=NULL)
+				x->next=yy;
+				if(y!=NULL)
+				y->next=xx;
+				p->next=q->next;
+				q->next=p;
+
+
+			}
+				
 }
 
 GV TimKiem(GV pHead, int x)

@@ -87,11 +87,32 @@ void themvaodit(Node &phead){
 	}
 
 }
+
 void inlist(Node pHead){
     for(Node p=pHead;p!=NULL;p=p->next){
         cout<<"Hoc sinh thu "<<endl;
         p->In();
     }
+}
+void SapXep(Node &pHead)
+{
+	for(Node p = pHead; p->next != NULL; p = p->next)
+		for(Node q = p->next; q != NULL; q = q->next)
+			if(p->get_ma() > q->get_ma()){
+				Node x=pHead;
+				// y=p;
+				// z=q;
+				p->next=q->next;
+				q->next=p;
+		
+				while(x->next!=p){
+    		    x=x->next;
+				}
+				x->next=q;
+
+			}
+			inlist(pHead);
+				
 }
 int main()
 {    Node list;
