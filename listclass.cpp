@@ -38,9 +38,9 @@ void khoitaoList(Node &pHead){
 
 Node khoitaoNode(){
     hocsinh a;
-    cout<<"Nhap diem cua hoc sinh  \n"; cin>>a;
-    Node create=new node;
-    create->data=a;
+    // cout<<"Nhap diem cua hoc sinh  \n"; cin>>a;
+     Node create=new node;
+    cin>>create->data;
     create->next=NULL;
     return create;
 }
