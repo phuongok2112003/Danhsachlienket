@@ -48,10 +48,13 @@ int main(){
     int v=M;
     for(int i=n;i>0;i--){
         if(f[i][v]!=f[i-1][v]){
+           
             cout<<"Mon hang thu "<<i<<" duoc chon "<<endl;
+             cout<<"dong "<<i<<" cot "<<v<<endl;
             v=v-a[i];
         } else{
             cout<<"Mon hang thu "<<i<<" khong duoc chon"<<endl;
+              cout<<"dong "<<i<<" cot "<<v<<endl;
         }
     }
 }
